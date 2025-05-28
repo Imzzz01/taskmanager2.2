@@ -1,0 +1,182 @@
+{% extends "taskmanager2/base.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">Filters</div>
+                <div class="card-body">
+                    <form method="get">
+                        <div class="mb-3">
+                            <label class="form-label">Priority</label>
+                            <select name="priority" class="form-select">
+                                <option value="">All</option>
+                                <option value="H" {% if request.GET.priority == "H" %}selected{% endif %}>High</option>
+                                <option value="M" {% if request.GET.priority == "M" %}selected{% endif %}>Medium</option>
+                                <option value="L" {% if request.GET.priority == "L" %}selected{% endif %}>Low</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-select">
+                                <option value="">All</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Search</label>
+                            <input type="text" name="search" class="form-control" value="{{ request.GET.search }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Reset</a>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Categories</span>
+                    <button id="add-category-btn" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#categoryModal">+</button>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for category in categories %}
+                    <a href="?category={{ category.id }}"
+                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if request.GET.category == category.id|stringformat:"s" %}active{% endif %}">
+                        {{ category.name }}
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary edit-category-btn"
+                                    data-category-id="{{ category.id }}" data-bs-toggle="modal" data-bs-target="#editCategoryModal-{{ category.id }}">
+                                Edit
+                            </button>
+                            <a href="{% url 'delete_category' category.id %}" class="btn btn-outline-danger">Delete</a>
+                        </div>
+                    </a>
+                    <div class="modal fade" id="editCategoryModal-{{ category.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Category</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="{% url 'edit_category' category.id %}">
+                                        {% csrf_token %}
+                                        {{ category_form }}
+                                        <div class="mt-3">
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="list-group-item text-muted">No categories yet</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>My Tasks</h3>
+                <a href="{% url 'add_task' %}" class="btn btn-primary">+ Add Task</a>
+            </div>
+
+            {% if tasks %}
+            <ul class="list-group">
+                {% for task in tasks %}
+                <li class="list-group-item d-flex justify-content-between align-items-start {% if task.completed %}list-group-item-light task-completed{% endif %}">
+                    <div class="ms-2 me-auto">
+                        <input type="checkbox" class="form-check-input me-2 task-checkbox" data-task-id="{{ task.id }}" {% if task.completed %}checked{% endif %}>
+                        <div class="fw-bold">{{ task.title }} {% if task.category %}<span class="badge bg-info ms-2">{{ task.category.name }}</span>{% endif %}</div>
+                        {% if task.description %}<div class="text-muted">{{ task.description }}</div>{% endif %}
+                    </div>
+                    <div>
+                        <span class="badge bg-{% if task.priority == 'H' %}danger{% elif task.priority == 'M' %}warning{% else %}success{% endif %} me-2">
+                            {{ task.get_priority_display }}
+                        </span>
+                        {% if task.due_date %}
+                        <span class="due-date me-2 {% if task.is_overdue %}overdue{% endif %}">{{ task.due_date }}</span>
+                        {% endif %}
+                        <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                        <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="alert alert-info">
+                No tasks found. <a href="{% url 'add_task' %}">Add your first task</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-category-form" method="post" action="{% url 'add_category' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    $(document).ready(function() {
+        $('#add-category-btn').click(function() {
+            $('#categoryModal').modal('show');
+        });
+
+        $('.edit-category-btn').click(function() {
+            var categoryId = $(this).data('category-id');
+            $('#editCategoryModal-' + categoryId).modal('show');
+        });
+
+        $('#add-category-form').submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: "{% url 'add_category' %}",
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        $('#categoryModal').modal('hide');
+                       
+                        $('.list-group-flush').append('<a href="?category=' + data.category_id + '" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">' + data.category_name + '<div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary edit-category-btn" data-category-id="' + data.category_id + '" data-bs-toggle="modal" data-bs-target="#editCategoryModal-' + data.category_id + '">Edit</button><a href="/category/delete/' + data.category_id + '/" class="btn btn-outline-danger">Delete</a></div></a>');
+                        
+                        location.reload(); 
+                    } else {
+                        alert('Error adding category.');
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.error(xhr.status + ": " + xhr.responseText);
+                    alert('There was an error processing your request.');
+                }
+            });
+        });
+
+    });
+</script>
+{% endblock %}

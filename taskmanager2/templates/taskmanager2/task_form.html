@@ -1,0 +1,24 @@
+{% extends "taskmanager2/base.html" %}
+
+{% block title %}{% if form.instance.id %}Edit Task{% else %}Add Task{% endif %}{% endblock %}
+
+{% block content %}
+<!-- Create a Task Form page -->
+     <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{% if form.instance.id %}Edit Task{% else %}Add New Task{% endif %}</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+     {% endblock %}

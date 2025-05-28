@@ -1,0 +1,315 @@
+/* Main Styles */
+body {
+    background-color: #f8f9fa; /* Light gray background */
+    font-family: 'Segoe UI', Arial, sans-serif; /* Font family */
+    color: #333; /* Dark gray text */
+    line-height: 1.6; /* Line height for better readability */
+}
+
+/* Fix for Bootstrap grid on larger screens */
+@media (min-width: 768px) {
+    .row {
+        display: flex; /* Flexbox for row */
+        flex-wrap: wrap; /* Allow wrapping of columns */
+    }
+
+    .col-md-3 {
+        flex: 0 0 300px; /* Fixed width for sidebar */
+        max-width: 300px; /* Max width for sidebar */
+        position: relative; /* Relative positioning for absolute children */
+        width: 100%; /* Full width for smaller screens */
+        padding-right: 15px; /* Padding for spacing */
+        padding-left: 15px; /* Padding for spacing */
+    }
+
+    .col-md-9 {
+        flex: 1; /* Flex-grow for main content */
+        max-width: calc(100% - 300px); /* Remaining width for main content */
+        position: relative; /* Relative positioning for absolute children */
+        width: 100%; /* Full width for smaller screens */
+        padding-right: 15px; /* Padding for spacing */
+        padding-left: 15px; /* Padding for spacing */
+    }
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #2563eb !important; /* Primary blue */
+    box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Shadow for depth */
+    padding: 0.8rem 1rem; /* Padding for navbar */
+    margin-bottom: 0; /* No margin at the bottom */
+}
+
+.navbar-brand {
+    font-size: 1.4rem; /* Larger font size for brand */
+    font-weight: 600;  /* Bold font weight */
+    color: white !important; /* White color for brand */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9); /* White color for links */
+}
+
+.navbar-text {
+    color: rgba(255, 255, 255, 0.9); /* White color for text */
+    margin-right: 10px; /* Margin for spacing */
+}
+
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.5); /* Light border color */
+}
+
+/* Container */
+.container-fluid {
+    max-width: 1200px; /* Max width for container */
+    padding: 20px; /* Padding for container */
+}
+
+/* Card Styling */
+.card {
+    border: none; /* No border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Shadow for depth */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transition for hover effect */
+    margin-bottom: 20px; /* Margin for spacing */
+    border-radius: 8px; /* Rounded corners */
+    background: white; /* White background */
+}
+.card:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Deeper shadow on hover */
+}
+
+.card-header {
+    background-color: #f8f9fa; /* Light gray background */
+    border-bottom: 1px solid #eaeaea; /* Border at the bottom */
+    font-weight: 600; /* Bold font weight */
+    padding: 12px 20px; /* Padding for header */
+    display: flex; /* Flexbox for header */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+    border-radius: 8px 8px 0 0 !important; /* Rounded corners */
+}
+
+.card-body {
+    padding: 1.25rem; /* Padding for body */
+}
+
+/* Task List Styling */
+.list-group {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.list-group-item {
+    border-left: 3px solid transparent; /* Transparent border for left */
+    transition: all 0.2s ease; /* Transition for hover effect */
+    padding: 1rem 1.25rem; /* Padding for items */
+    display: flex; /* Flexbox for items */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+}
+
+.list-group-item:hover {
+    background-color: #f9f9f9; /* Light gray background on hover */
+    border-left-color: #2563eb; /* Blue border on hover */
+}
+
+.list-group-item > div:first-child {
+    flex-grow: 1; /* Allow first child to grow */
+    margin-right: 15px; /* Margin for spacing */
+    display: flex; /* Flexbox for first child */
+    align-items: center; /* Center items vertically */
+}
+
+.list-group-item > div:first-child > input[type="checkbox"] {
+    margin-right: 15px; /* Margin for spacing */
+    transform: scale(1.1); /* Scale checkbox */
+}
+
+.task-completed {
+    text-decoration: line-through; /* Line-through for completed tasks */
+    opacity: 0.7;  /* Reduced opacity for completed tasks */
+    background-color: #f9f9fa !important; /* Light gray background for completed tasks */
+}
+
+/* Priority Badge Styling */
+.badge {
+    padding: 5px 10px; /* Padding for badges */
+    border-radius: 12px; /* Rounded corners */
+    font-weight: 500; /* Bold font weight */
+    font-size: 0.75rem; /* Smaller font size */
+}
+
+.bg-danger {
+    background-color: #fecaca !important; /* Light red background */
+    color: #b91c1c !important; /* Dark red text */
+}
+
+.bg-warning {
+    background-color: #fef3c7 !important; /* Light yellow background */
+    color: #d97706 !important; /* Dark yellow text */
+}
+
+.bg-success {
+    background-color: #d1fae5 !important; /* Light green background */
+    color: #047857 !important; /* Dark green text */
+} 
+
+.bg-info {
+    background-color: #e0f2fe !important; /* Light blue background */
+    color: #0369a1 !important; /* Dark blue text */
+}
+
+/* Due Date Styling */
+.due-date {
+    font-size: 0.85rem; /* Smaller font size */
+    color: #666; /* Gray color */
+    margin-right: 15px; /* Margin for spacing */
+}
+
+.overdue {
+    color: #dc3545; /* Red color for overdue tasks */
+    font-weight: 500; /* Bold font weight */
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    border-radius: 6px; /* Rounded corners */
+    border: 1px solid #dee2e6; /* Light gray border */
+    padding: 0.5rem 0.75rem; /* Padding for inputs */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transition for focus effect */
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #2563eb; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15); /* Blue shadow on focus */
+}
+
+/* Buttons */
+.btn {
+    border-radius: 6px; /* Rounded corners */
+    padding: 0.375rem 0.75rem; /* Padding for buttons */
+    font-weight: 500; /* Bold font weight */
+    transition: all 0.2s ease; /* Transition for hover effect */
+}
+
+.btn-primary {
+    background-color: #2563eb; /* Primary blue */
+    border-color: #2563eb; /* Border color */
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8; /* Darker blue on hover */
+    border-color: #1d4ed8; /* Darker border color on hover */
+}
+
+.btn-outline-primary {
+    color: #2563eb; /* Primary blue */
+    border-color: #2563eb; /* Border color */
+}
+
+.btn-outline-primary:hover {
+    background-color: #2563eb; /* Blue background on hover */
+    color: white; /* White text on hover */
+}
+
+.btn-outline-danger {
+    color: #dc3545; /* Danger red */
+    border-color: #dc3545; /* Border color */
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545; /* Red background on hover */
+    color: white; /* White text on hover */
+}
+
+.btn-sm {
+    font-size: 0.75rem; /* Smaller font size */
+    padding: 0.25rem 0.5rem; /* Padding for small buttons */
+}
+
+/* Category Styling */
+.list-group-flush .list-group-item { 
+    padding: 0.75rem 1.25rem; /* Padding for items */
+    background-color: transparent; /* Transparent background */
+    display: flex; /* Flexbox for items */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+}
+
+.list-group-flush .list-group-item:hover {
+    background-color: #f8f9fa; /* Light gray background on hover */
+}
+
+.list-group-flush .list-group-item.active {
+    background-color: #e0f2fe; /* Light blue background */
+    color: #0369a1; /* Dark blue text */
+    border-left-color: #0369a1; /* Dark blue border */
+    font-weight: 500; /* Bold font weight */
+}
+
+.list-group-flush .list-group-item > a {
+    flex-grow: 1; /* Allow link to grow */
+    margin-right: 10px; /* Margin for spacing */
+    text-decoration: none; /* No underline */
+    color: inherit; /* Inherit color */
+}
+
+.list-group-flush .list-group-item > div.btn-group {
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Modal Styling */
+.modal-content {
+    border: none; /* No border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Shadow for depth */
+}
+
+.modal-header {
+    border-bottom: 1px solid #eaeaea; /* Border at the bottom */
+    background-color: #f8f9fa; /* Light gray background */
+    border-radius: 8px 8px 0 0; /* Rounded corners */
+}
+
+.modal-title {
+    font-weight: 600; /* Bold font weight */
+}
+
+.modal-body {
+    padding: 1.25rem; /* Padding for body */
+}
+
+.modal-footer {
+    border-top: 1px solid #eaeaea; /* Border at the top */
+    padding: 1rem; /* Padding for footer */
+    display: flex; /* Flexbox for footer */
+    justify-content: flex-end; /* Align items to the right */
+    border-radius: 0 0 8px 8px; /* Rounded corners */
+}
+
+.modal-footer > .btn {
+    margin-left: 0.5rem; /* Margin for spacing */
+}
+
+/* Animation for task completion */
+@keyframes fadeComplete {
+    from { background-color: #d1fae5; } /* Light green background */
+    to { background-color: #f8f9fa; } /* Light gray background */
+}
+
+.task-completed-animation {
+    animation: fadeComplete 0.6s ease-out; /* Animation for fade effect */
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 8px; /* Rounded corners */
+    border: none; /* No border */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Shadow for depth */
+}
+
+.alert-info {
+    background-color: #e0f2fe; /* Light blue background */
+    color: #0369a1; /* Dark blue text */
+}
